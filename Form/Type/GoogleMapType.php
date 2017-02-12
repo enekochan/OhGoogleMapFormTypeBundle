@@ -7,8 +7,9 @@ use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GoogleMapType extends AbstractType
 {
@@ -27,7 +28,7 @@ class GoogleMapType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'type'           => 'text',     // the types to render the lat and lng fields as
@@ -52,24 +53,29 @@ class GoogleMapType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-            $view->vars['lat_name'] = $options['lat_name']; 
-            $view->vars['lng_name'] = $options['lng_name']; 
-            $view->vars['map_width'] = $options['map_width']; 
-            $view->vars['map_height'] = $options['map_height']; 
-            $view->vars['default_lat'] = $options['default_lat']; 
-            $view->vars['default_lng'] = $options['default_lng']; 
-            $view->vars['include_jquery'] = $options['include_jquery']; 
-            $view->vars['include_gmaps_js'] = $options['include_gmaps_js'];
-            $view->vars['js_inside_html'] = $options['js_inside_html'];
+        $view->vars['lat_name'] = $options['lat_name']; 
+        $view->vars['lng_name'] = $options['lng_name']; 
+        $view->vars['map_width'] = $options['map_width']; 
+        $view->vars['map_height'] = $options['map_height']; 
+        $view->vars['default_lat'] = $options['default_lat']; 
+        $view->vars['default_lng'] = $options['default_lng']; 
+        $view->vars['include_jquery'] = $options['include_jquery']; 
+        $view->vars['include_gmaps_js'] = $options['include_gmaps_js'];
+        $view->vars['js_inside_html'] = $options['js_inside_html'];
     }
 
     public function getParent()
     {
-        return 'form';
+        return FormType::class;
+    }
+
+    public function getBlockPrefix()
+    {
+        return 'oh_google_maps';
     }
 
     public function getName()
     {
-        return 'oh_google_maps';
+        return $this->getBlockPrefix();
     }
 }
