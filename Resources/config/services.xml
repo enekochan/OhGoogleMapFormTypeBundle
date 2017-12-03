@@ -16,7 +16,7 @@
             <tag name="form.type" alias="oh_google_maps" />
             <argument>%type.oh_google_maps.form.options%</argument>
         </service>
-        
+
         <!-- variables globales para utilizar en plantillas Twig -->
         <service id="twig.extension.globals_extension" class="%twig.extension.globals_extension.class%">
             <tag name="twig.extension" />
